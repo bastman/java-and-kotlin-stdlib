@@ -3,18 +3,53 @@
  */
 package org.example;
 import java.util.UUID;
+import java.util.List;
+record FooRecord(int id, String name, String countryCode){}
+
 public class App {
     public void run() {
         UUID uuidV7=UuidUtil.generateV7();
-        java.util.List<Integer> nums = java.util.List.of(1, 2, 3, 4);
-
+        System.out.println("uuidV7: " + uuidV7);
+        java.util.List<Integer> nums = List.of(1, 2, 3, 4);
         int sum = kotlin.collections.CollectionsKt.sumOfInt(nums);
+        System.out.println("sum: " + sum);
+
+        var javaList = List.of(1, 2, 3, 4);
+        var out = kotlin.collections.CollectionsKt.toList(javaList);
+
         var s ="{fooo}";
         var s2=kotlin.text.StringsKt.removeSurrounding(s, "{", "}");
-
         System.out.println("s2: " + s2);
-        System.out.println("uuidV7: " + uuidV7);
-        System.out.println("sum: " + sum);
+
+        String result =
+                Chain.of("foo, bar, baz, qux")
+                        .map(String::trim)
+                        .map(String::toUpperCase)
+                        //.filter(kotlin.text.StringsKt::isBlank)
+                        .filter(it -> it.length() > 3)
+                        .filter((it) -> {
+                            return kotlin.text.StringsKt.isBlank(it);
+                        })
+                        .get();
+        System.out.println("result: " + result);
+
+
+        var records = List.of(
+                new FooRecord(1, "a", "DE"),
+                new FooRecord(2, "b", "DE"),
+                new FooRecord(1, "c", "US"),
+                new FooRecord(3, "d", "GB")
+        );
+        var recordsTransformed=ListChain.of(records)
+                .sortedBy(org.example.FooRecord::id)
+                .distinctBy(it -> it.id())
+
+                .map(it -> new FooRecord(it.id(), it.name(), it.countryCode()))
+                .groupBy(x -> x.countryCode());
+
+        System.out.println("recordsTransformed: " + recordsTransformed);
+
+
     }
 
     public static void main(String[] args) {

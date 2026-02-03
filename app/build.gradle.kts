@@ -16,6 +16,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jspecify:jspecify:1.0.0")
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.3.0")
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
