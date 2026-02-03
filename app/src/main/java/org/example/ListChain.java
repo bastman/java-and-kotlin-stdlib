@@ -303,4 +303,8 @@ public final class ListChain<T> {
     public int size() {
         return list.size();
     }
+
+    public ListChain<T> reversed() {
+        return new ListChain<>(CollectionsKt.reversed(list));
+    }
 }

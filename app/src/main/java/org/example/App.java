@@ -3,6 +3,9 @@
  */
 package org.example;
 
+import kotlin.collections.CollectionsKt;
+import kotlin.text.StringsKt;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -13,27 +16,32 @@ public class App {
     public void run() {
         UUID uuidV7 = UuidUtil.generateV7();
         System.out.println("uuidV7: " + uuidV7);
-        java.util.List<Integer> nums = List.of(1, 2, 3, 4);
-        int sum = kotlin.collections.CollectionsKt.sumOfInt(nums);
+
+        List<Integer> nums = List.of(1, 2, 3, 4);
+        int sum = CollectionsKt.sumOfInt(nums);
         System.out.println("sum: " + sum);
 
         var javaList = List.of(1, 2, 3, 4);
-        var out = kotlin.collections.CollectionsKt.toList(javaList);
+        var kotlinList = CollectionsKt.toList(javaList);
+        var x1 = ListChain.of(kotlinList)
+                .dropLast(2)
+                .reversed();
+        System.out.println("x1: " + x1);
 
         var s = "{fooo}";
-        var s2 = kotlin.text.StringsKt.removeSurrounding(s, "{", "}");
+        var s2 = StringsKt.removeSurrounding(s, "{", "}");
         System.out.println("s2: " + s2);
 
-        String result =
+        var result =
                 Chain.of("foo, bar, baz, qux")
                         .map(String::trim)
                         .map(String::toUpperCase)
                         //.filter(kotlin.text.StringsKt::isBlank)
                         .filter(it -> it.length() > 3)
-                        .filter((it) -> kotlin.text.StringsKt.isBlank(it))
+                        .filter((it) -> !StringsKt.isBlank(it))
                         .get();
-        System.out.println("result: " + result);
 
+        System.out.println("result: " + result);
 
         var records = List.of(
                 new FooRecord(1, "a", "DE"),
@@ -48,6 +56,7 @@ public class App {
                 .groupBy(x -> x.countryCode());
 
         System.out.println("recordsTransformed: " + recordsTransformed);
+
         var recordsTransformed2 = ListChain.of(records)
                 .map(it -> it.name())
                 .joinToString(", ", "[", "]", null, null);
