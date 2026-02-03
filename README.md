@@ -1,0 +1,3 @@
+# experimental playground (WIP)
+
+- explore, how to use kotlin's std lib in a java project ...
