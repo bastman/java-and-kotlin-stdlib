@@ -1429,4 +1429,54 @@ public final class KList<T> implements List<T>, RandomAccess {
         return new ArrayList<>(backing);
     }
 
+
+        /* ============================================================
+       Grouping
+       ============================================================ */
+
+    public <K> LinkedHashMap<K, KList<T>> groupBy(
+            Function<? super T, ? extends K> keySelector) {
+
+        LinkedHashMap<K, ArrayList<T>> temp = new LinkedHashMap<>();
+
+        for (int i = 0; i < size(); i++) {
+            T e = backing.get(i);
+            K key = keySelector.apply(e);
+
+            temp.computeIfAbsent(key, k -> new ArrayList<>()).add(e);
+        }
+
+        LinkedHashMap<K, KList<T>> result = new LinkedHashMap<>(temp.size());
+        for (Map.Entry<K, ArrayList<T>> entry : temp.entrySet()) {
+            result.put(entry.getKey(), new KList<>(entry.getValue()));
+        }
+
+        return result;
+    }
+
+    public <K, V> LinkedHashMap<K, KList<V>> groupBy(
+            Function<? super T, ? extends K> keySelector,
+            Function<? super T, ? extends V> valueTransform) {
+
+        LinkedHashMap<K, ArrayList<V>> temp = new LinkedHashMap<>();
+
+        for (int i = 0; i < size(); i++) {
+            T e = backing.get(i);
+            K key = keySelector.apply(e);
+            V value = valueTransform.apply(e);
+
+            temp.computeIfAbsent(key, k -> new ArrayList<>()).add(value);
+        }
+
+        LinkedHashMap<K, KList<V>> result = new LinkedHashMap<>(temp.size());
+        for (Map.Entry<K, ArrayList<V>> entry : temp.entrySet()) {
+            result.put(entry.getKey(), new KList<>(entry.getValue()));
+        }
+
+        return result;
+    }
+
+
+
+
 }
