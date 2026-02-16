@@ -1,4 +1,4 @@
-package org.example.kcollections.full;
+package org.example.kcollections.full.v1;
 
 public record Pair<A, B>(A first, B second) {
 

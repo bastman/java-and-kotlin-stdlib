@@ -1,4 +1,4 @@
-package org.example.kcollections.full;
+package org.example.kcollections.full.v1;
 
 import java.util.*;
 import java.util.function.*;

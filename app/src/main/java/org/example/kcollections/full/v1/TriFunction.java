@@ -1,4 +1,4 @@
-package org.example.kcollections.full;
+package org.example.kcollections.full.v1;
 
 @FunctionalInterface
 public interface TriFunction<A, B, C, R> {
