@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+    kotlin("jvm") version "2.3.0"
 }
 
 repositories {
@@ -17,7 +18,8 @@ repositories {
 
 dependencies {
     implementation("org.jspecify:jspecify:1.0.0")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.3.0")
+    //implementation("org.jetbrains.kotlin:kotlin-stdlib:2.3.0")
+    implementation(kotlin("stdlib"))
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
 

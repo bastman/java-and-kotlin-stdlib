@@ -1278,14 +1278,15 @@ public final class KList<T> implements List<T>, RandomAccess {
             T element,
             Comparator<? super T> comparator) {
 
-        return binarySearch(element, 0, size(), comparator);
+        return binarySearch(element, comparator,0, size());
     }
 
     public int binarySearch(
             T element,
+            Comparator<? super T> comparator,
             int fromIndex,
-            int toIndex,
-            Comparator<? super T> comparator) {
+            int toIndex
+            ) {
 
         checkRange(fromIndex, toIndex);
 
